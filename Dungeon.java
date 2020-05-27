@@ -93,6 +93,21 @@ public String changePos(String origin, char input, char symbol) {
 }
 
 
+//this method will place/spawn a symbol on the map
+public void place(char symbol, String position) {
+   String[] coords = position.split("-", 2);
+   int x = Integer.parseInt(coords[0]); int y = Integer.parseInt(coords[1]); //converts the x-y hash to x and y integers
+   map[y][x] = symbol; //places symbol on it's new position
+}
+
+
+//this method will remove/despawn a symbol from the map
+public void remove(char symbol, String position) {
+   String[] coords = position.split("-", 2);
+   int x = Integer.parseInt(coords[0]); int y = Integer.parseInt(coords[1]); //converts the x-y hash to x and y integers
+   map[y][x] = 0; //removes symbol from the space it occupies
+}
+
 
 /* This method will involve retrieving applicable hash/keys. So it will return the object at the grid position, or the character if there is no associated object
 public void getPos(int x, y) {

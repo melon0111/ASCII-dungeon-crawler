@@ -1,7 +1,7 @@
 public class test {
 
 public static void main(String[] args) {
-   String pos = "15-2";
+   String pos = "15-1";
    char input = 'w';
    char symbol = '$';
    Dungeon Dungeon1 = new Dungeon(1);
