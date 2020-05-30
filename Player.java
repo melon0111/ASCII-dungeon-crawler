@@ -28,7 +28,7 @@ public class Player {
 			symbol += 22; //removes capitalization from equation
 		}
 		symbol = status(symbol);
-		if(symbol == 'n' || symbol == 's' || symbol || 'w' || symbol == 'e') {
+		if(symbol == 'n' || symbol == 's' || symbol == 'w' || symbol == 'e') {
 			move(symbol);
 		}
 	}
@@ -53,11 +53,17 @@ public class Player {
 		}
 	}
 	
+	//checks any adverse status effects and preforms any relevant action.
 	private char status(char symbol) {
 		//checks if player has bleed debuff and damages their hp
 		if(bleed) {
-			hp -= debuff.bleed;
-			System.out.println("You take " + debuff.bleed + " in bleed damage.");
+			int x = Debuff.bleed();
+			if(x < 0) {
+				hp -= x;
+				System.out.println("You take " + x + " in bleed damage.");
+			} else {
+				bleed = !bleed;
+			}
 		}
 		
 		//if player has confusion randomizes direction 
