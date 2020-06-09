@@ -1,6 +1,7 @@
 import java.util.Random;
 
 public class Player {
+   public char rep;
 	private String cord;
 	private int hp = 100;
 	private int def;
