@@ -5,13 +5,15 @@ import java.io.*;
 public class DungeonCrawler {
    public static Scanner IS = new Scanner(System.in); //input scanner
    public static Player PC = new Player();            //player object
+   public static Dungeon Map = new Dungeon();
    
 public static void main(String[] args) {
 
-   
-   PC = intro();
+   while(IS.nextLine() != "q" || IS.nextLine() != "Q"){ //Q quits the game
+      PC = intro();
 
-
+      
+   }
 }
 
 
@@ -29,9 +31,11 @@ public static Player intro() {
    } catch(Exception invalidChar) {
       System.out.println("Sorry! That's an invalid character!");
    }
-      System.out.println("In this game use wasd to move, i to open the inventory, and escape to close.");
-      System.out.println("use the arrow keys to face another direction when attacking");
+      System.out.println("In this game use wasd to move, i to open and close the inventory.");
+      System.out.println("use the uhjk keys to face another direction when attacking");
       System.out.println("Godspeed!");
+      Map.place(PC.rep, "10-10"); //player will spawn here initially on our first map
+      Map.printMap();
    return PC;
 }
 
