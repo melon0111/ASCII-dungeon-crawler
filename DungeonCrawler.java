@@ -8,11 +8,10 @@ public class DungeonCrawler {
    public static Dungeon Map = new Dungeon();
    
 public static void main(String[] args) {
-
+   
    while(IS.nextLine() != "q" || IS.nextLine() != "Q"){ //Q quits the game
       PC = intro();
-
-      
+      playerAction();      
    }
 }
 
@@ -32,12 +31,41 @@ public static Player intro() {
       System.out.println("Sorry! That's an invalid character!");
    }
       System.out.println("In this game use wasd to move, i to open and close the inventory.");
-      System.out.println("use the uhjk keys to face another direction when attacking");
+      System.out.println("use the uhjk keys to face the direction you want to attack");
       System.out.println("Godspeed!");
       Map.place(PC.rep, "10-10"); //player will spawn here initially on our first map
       Map.printMap();
    return PC;
 }
+
+public static void playerAction(){
+   try {
+      char input = IS.nextLine().charAt(0);
+      
+		if(input >= 65 && input <= 90) {
+			input += 22; //removes capitalization from equation
+		}
+
+      if(input == 119 || input == 115 || input == 97 || input == 100) {
+         PC.action(Map, input);
+      }//else if(input == 'u', 'h', 'j', 'k',) {
+         
+   //   }else if(input == 'i',) {
+         
+      
+   } catch(Exception invalidChar) {
+      System.out.println("Unrecognized command (WASD to move, UHJK for direction, I for inventory, Q to quit)");
+   }
+}
+
+
+
+
+
+
+
+
+
 
 
 
