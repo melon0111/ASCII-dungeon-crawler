@@ -4,7 +4,7 @@ import java.io.*;
 //the Dungeon class is the object that all of our dungeon levels/maps will be comprised of. Thus far it will contain a grid read from a text file and a player location.
 public class Dungeon {
 
-int level = 0;
+public int level = 0;
 char[][] map = new char[20][20]; //our map grid of characters, my initial idea here is that any spaces will be null, but printed as spaces
 
 
@@ -30,6 +30,42 @@ public Dungeon(){
          System.out.println("That Dungeon file does not exist");
    }
 }
+
+
+
+//creates the next dungeon in the game (or the previous, if you go up)
+public void nextDungeon(){ 
+   int row = 0;
+   
+   try {
+      File dng = new File("Dungeon" + level + ".txt"); //reads our level of dungeon
+      Scanner builder = new Scanner(dng);
+      while(builder.hasNextLine()) { //here we'll create a string, then populate the corresponding row of our 2D array with it
+         String rowString = builder.nextLine();
+         for(int i = 0; i < rowString.length(); i++){ //loops for x coordinates
+            if(rowString.charAt(i) == 32) { //if the position is a space, changes to a null ascii character, may or may not be necessary, keeps things simple though
+               map[row][i] = 0;
+            } else {
+               map[row][i] = rowString.charAt(i);
+            }
+         }
+         row++;
+      
+      
+      } while(row < 20) { //overwrites existing map with blank space if given map is less than 20x20 {
+         for(int i = 0; i < 20; i++) {
+            map[row][i] = 0;
+         }
+      }   
+      
+   } catch (FileNotFoundException e) {
+         System.out.println("That Dungeon file does not exist");
+   }
+}
+
+
+
+
 
 
 //this method will simply run through the ASCII map and print to the prompt
@@ -67,6 +103,29 @@ public boolean checkNewPos(String origin, char input) {
       return false;
    }
 }
+
+
+
+//this will check what is at the position the player is interacting with
+public char checkInteract(String origin, char facing) {  
+   String[] coords = origin.split("-", 2);
+   int x = Integer.parseInt(coords[0]); int y = Integer.parseInt(coords[1]); //converts the x-y hash to x and y integers
+   
+   if(facing == 'N') {
+      y--;
+   }else if(facing == 'S') { 
+      y++;
+   }else if(facing == 'W') { 
+      x--;
+   }else if(facing == 'E') { 
+      x++;
+   }
+
+   return map[y][x]; //returns the character at that position
+    
+}
+
+
 
 
 

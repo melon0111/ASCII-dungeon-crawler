@@ -36,6 +36,7 @@ public static void main(String[] args) {
 }
 
 
+
 //this class will give an introduction and assign a player-given symbol
 public static Player intro() {
    System.out.println("Welcome to The Dungeon! To begin, give your character a symbol for the map:");
@@ -60,6 +61,7 @@ public static Player intro() {
 }
 
 
+
 //This is the primary method for player actions, taking movement, direction or inventory actions
 public static void playerAction(char input){
    try {
@@ -67,12 +69,16 @@ public static void playerAction(char input){
 			input += 32; //removes capitalization from equation
 		}
 
-      if(input == 119 || input == 115 || input == 97 || input == 100) {
+      if(input == 'w' || input == 'a' || input == 's' || input == 'd') { //movement
          Map = PC.move(Map, input);
          turn = false; //ends player turn
-      }else if(input == 'u' || input == 'h' || input == 'j' || input == 'k') {
+      }else if(input == 'u' || input == 'h' || input == 'j' || input == 'k') { //direction
          PC.face(input);
-      }//else if(input == 'i',) {
+         Map.printMap();
+         PC.ui();
+      }else if(input == 'e') { //interaction
+         Map = PC.interact(Map);
+      }
    } catch(Exception invalidInput) {
          System.out.println("Unrecognized command (WASD to move, UHJK for direction, I for inventory, Q to quit)");
       }
