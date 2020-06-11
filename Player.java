@@ -1,14 +1,22 @@
 import java.util.Random;
 
 public class Player {
-   public char rep;
-   private char facing = 'N';
-	private String cord = "10-10";
+	private String cord;
 	private int hp = 100;
-	private int def = 0;
-	private int attack = 2;
+	private int def;
+	private int attack;
 	private boolean bleed;
 	private boolean confusion;
+	private char symbol;
+	
+	// returns the char representing the player
+	public char symbol() { 
+		return symbol;
+	}
+	
+	public void symbol(char x) {
+		symbol = x;
+	}
 	
 	//method to damage hp of the character
 	public void dmg (int x) {
@@ -21,7 +29,21 @@ public class Player {
 			//set flag in main to game over
 		}
 	}
-		
+	
+	//beginning of player action
+	//takes in a char representing movement, handles any special case debuffs
+	// then calls move with any changes.
+	public void action(char symbol) {
+		if(symbol >= 65 && symbol <= 90) {
+			symbol += 22; //removes capitalization from equation
+		}
+		symbol = status(symbol);
+		if(symbol == 'n' || symbol == 's' || symbol == 'w' || symbol == 'e') {
+			move(symbol);
+		}
+	}
+	
+	
 	//changes value based on value of weapon
 	public void equip(char type, int x) {
 		if(type == 'w') {
@@ -33,39 +55,14 @@ public class Player {
 	
 	//takes in a symbol from action and checks if the movement is possible
 	// before updating map/cord
-	public Dungeon move(Dungeon map, char symbol) {
-		if(!map.checkNewPos((cord), symbol)) {
+	private void move(char symbol) {
+		if(!Dungeon.checkNewPos((cord), symbol)) {
 			System.out.println("You hug the wall, it feels appreciated");
 		}else {
-			cord = map.changePos((cord), symbol, rep);
+			cord = Dungeon.changePos((cord), symbol);
 		}
-      return map;
 	}
-   
-   public void place(String position) {
-      cord = position;
-   }
-   
-   
-   //takes a symbol from action and makes the character face that direction
-   public void face(char symbol) {
-      if(symbol == 'u') { //faces north
-         facing = 'N';
-      }else if(symbol == 'h') { //faces west
-         facing = 'W';
-      }else if(symbol == 'j') { //faces south
-         facing = 'S';
-      }else if(symbol == 'k') { //faces east
-         facing = 'E';
-      }
-   }
-   
-   public void ui() {
-      System.out.println("hp: " + hp + "  def: " + def + "  attack: " + attack + "    facing: " + facing);
-   }
-   
-   
-	/*
+	
 	//checks any adverse status effects and preforms any relevant action.
 	private char status(char symbol) {
 		//checks if player has bleed debuff and damages their hp
@@ -94,5 +91,5 @@ public class Player {
 			}
 		}
 		return symbol;
-	} */
+	}
 }
