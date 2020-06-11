@@ -6,13 +6,33 @@ public class DungeonCrawler {
    public static Scanner IS = new Scanner(System.in); //input scanner
    public static Player PC = new Player();            //player object
    public static Dungeon Map = new Dungeon();
+   public static boolean turn;
    
 public static void main(String[] args) {
+   char input = ' ';
    
-   while(IS.nextLine() != "q" || IS.nextLine() != "Q"){ //Q quits the game
-      PC = intro();
-      playerAction();      
+   
+   PC = intro();
+   PC.ui();
+   while(input != 'q' || input != 'Q') {
+   turn = true;
+   //this block constitutes the player's turn, while turn is true it will loop
+   //thus attacking or moving will end the player turn
+      while(turn){
+      try {
+         input = IS.nextLine().charAt(0);
+      } catch(Exception invalidInput) {
+         System.out.println("please enter a command");
+      }
+      playerAction(input);
+      }
+      
+      
+      
+      Map.printMap();
+      PC.ui();
    }
+   
 }
 
 
@@ -33,29 +53,31 @@ public static Player intro() {
       System.out.println("In this game use wasd to move, i to open and close the inventory.");
       System.out.println("use the uhjk keys to face the direction you want to attack");
       System.out.println("Godspeed!");
+      
       Map.place(PC.rep, "10-10"); //player will spawn here initially on our first map
       Map.printMap();
    return PC;
 }
 
-public static void playerAction(){
+
+//This is the primary method for player actions, taking movement, direction or inventory actions
+public static void playerAction(char input){
    try {
-      char input = IS.nextLine().charAt(0);
-      
 		if(input >= 65 && input <= 90) {
-			input += 22; //removes capitalization from equation
+			input += 32; //removes capitalization from equation
 		}
 
       if(input == 119 || input == 115 || input == 97 || input == 100) {
-         PC.action(Map, input);
-      }//else if(input == 'u', 'h', 'j', 'k',) {
-         
-   //   }else if(input == 'i',) {
-         
+         Map = PC.move(Map, input);
+         turn = false; //ends player turn
+      }else if(input == 'u' || input == 'h' || input == 'j' || input == 'k') {
+         PC.face(input);
+      }//else if(input == 'i',) {
+   } catch(Exception invalidInput) {
+         System.out.println("Unrecognized command (WASD to move, UHJK for direction, I for inventory, Q to quit)");
+      }
       
-   } catch(Exception invalidChar) {
-      System.out.println("Unrecognized command (WASD to move, UHJK for direction, I for inventory, Q to quit)");
-   }
+      
 }
 
 
