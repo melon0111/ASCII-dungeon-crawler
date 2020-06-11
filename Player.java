@@ -1,7 +1,6 @@
 import java.util.Random;
 
 public class Player {
-   public char rep;
    private char facing = 'N';
 	private String cord = "10-10";
 	private int hp = 100;
@@ -9,6 +8,16 @@ public class Player {
 	private int attack = 2;
 	private boolean bleed;
 	private boolean confusion;
+   private char rep;
+	
+	// returns the char representing the player
+	public char symbol() { 
+		return rep;
+	}
+	
+	public void symbol(char x) {
+		rep = x;
+	}
 	
 	//method to damage hp of the character
 	public void dmg (int x) {

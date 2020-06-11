@@ -41,11 +41,11 @@ public static void main(String[] args) {
 public static Player intro() {
    System.out.println("Welcome to The Dungeon! To begin, give your character a symbol for the map:");
    try {
-      while(PC.rep == 0) {
-         PC.rep = IS.nextLine().charAt(0);
-         if(PC.rep <= 32 || PC.rep == 45 || PC.rep == 124) { //catches possible problem symbols
+      while(PC.symbol() == 0 || PC.symbol() == 32) {
+         PC.symbol(IS.nextLine().charAt(0));
+         if(PC.symbol() <= 32 || PC.symbol() == 45 || PC.symbol() == 124) { //catches possible problem symbols
             System.out.println("This character conflicts with one in the game, Sorry try again!");
-            PC.rep = 0;
+            PC.symbol(' ');
          }
       }
    } catch(Exception invalidChar) {
@@ -55,7 +55,7 @@ public static Player intro() {
       System.out.println("use the uhjk keys to face the direction you want to attack");
       System.out.println("Godspeed!");
       
-      Map.place(PC.rep, "10-10"); //player will spawn here initially on our first map
+      Map.place(PC.symbol(), "10-10"); //player will spawn here initially on our first map
       Map.printMap();
    return PC;
 }
