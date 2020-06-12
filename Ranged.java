@@ -7,16 +7,24 @@ public class Ranged {
 	private boolean agro;
 	
 	//decides ai's action 
-	public void action(String player) {
+	public Dungeon action(Dungeon map, String player) {
 		 String[] coords = player.split("-", 2);
-		 int x = Integer.parseInt(coords[0]); int y = Integer.parseInt(coords[1]); //converts the x-y hash to x and y integers
+		 int playerX = Integer.parseInt(coords[0]); int playerY = Integer.parseInt(coords[1]); //converts the x-y hash to x and y integers
 		 if(!agro) {
 			 agro(x, y); //checks if player is close enough to agro on
 		 }
-		 if(x - this.x > -3 && x - this.x < 0) {
+		 if(playerX - this.x > -3 && playerX - this.x < 0) { //attacks player if close enough
 			 if (!map.checkNewPos((""+ this.x  + "-" + this.y), symbol)) {
 				 
 			 }
+		 }else if(playerX - this.x < 3 && playerX - this.x > 0) {
+			 
+		 }else if (playerY - this.y > -3 && playerY - this.y < 0) {
+			 
+		 }else if(playerY - this.y < 3 && playerY - this.y > 0) {
+			 
+		 }else {
+			map = move(map, playerX, playerY);
 		 }
 		 
 	}
@@ -46,21 +54,49 @@ public class Ranged {
 	
 	//chooses the ai's movement, following player if agro true
 	// or calls rMove for random direction
-	private String move() {
+	private Dungeon move(Dungeon map, int playerX, int playerY) {
+		char move;
 		if(!agro) {
-			char move = rMove(); 
+				move = rMove(); 
 			while(!map.checkNewPos((""+ this.x  + "-" + this.y), move)){
 				move = rMove();
 				
 			}
-			String cord = map.changePos((""+ this.x  + "-" + this.y), move, symbol);
-			String[] coords = cord.split("-", 2);
-			int x = Integer.parseInt(coords[0]); int y = Integer.parseInt(coords[1]); 
-			this.x = x; 
-			this.y = y;
+
 		}else {
-			
+			int distanceX = this.x - playerX;
+			int distanceY = this.y - playerY;
+			while(move == 0) {
+			if(Math.abs(distanceX) > Math.abs(distanceY)) {
+				if(distanceX > 0 && map.checkNewPos((""+ this.x  + "-" + this.y), 'e')) {
+					move = 'e';
+				}else if(distanceX < 0 && map.checkNewPos((""+ this.x  + "-" + this.y), 'w')) {
+					move = 'w';
+				}else{
+					distanceX = 0;
+				}
+			}else {
+				if(distanceY > 0 && map.checkNewPos((""+ this.x  + "-" + this.y), 's')) {
+					move = 's';
+				}else if(distanceY < 0 && map.checkNewPos((""+ this.x  + "-" + this.y), 's')) {
+					move = 's';
+				}else{
+					distanceY = 0;
+				}
+			}
+			if(distanceX == 0 && distanceY == 0) {
+				agro = false;
+				map = move(map, playerX, playerY);
+			}
+			}
 		}
+		
+		String cord = map.changePos((""+ this.x  + "-" + this.y), move, symbol);
+		String[] coords = cord.split("-", 2);
+		int x = Integer.parseInt(coords[0]); int y = Integer.parseInt(coords[1]); 
+		this.x = x; 
+		this.y = y;
+		return map;
 	}
 	
 	// randomly chooses a direction
