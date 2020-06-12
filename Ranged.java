@@ -5,28 +5,61 @@ public class Ranged {
 	private int y;
 	private char symbol;
 	private boolean agro;
+	private int attack;
+	private int hp = 20;
+	private boolean damaged;
 	
 	//decides ai's action 
 	public Dungeon action(Dungeon map, String player) {
+		if(!damaged) {
+			hp = 20 +2 * map.level;
+		}
+		attack = (-2 - map.level);
 		 String[] coords = player.split("-", 2);
 		 int playerX = Integer.parseInt(coords[0]); int playerY = Integer.parseInt(coords[1]); //converts the x-y hash to x and y integers
 		 if(!agro) {
 			 agro(x, y); //checks if player is close enough to agro on
 		 }
-		 if(playerX - this.x > -3 && playerX - this.x < 0) { //attacks player if close enough
-			 if (!map.checkNewPos((""+ this.x  + "-" + this.y), symbol)) {
-				 
+		 
+		 //attacks player if close enough and there is nothing in the way
+		 //if there is it will move
+		 if(this.x - playerX > -3 && this.x - playerY < 0) { 
+			 if (!map.checkNewPos((""+ this.x  + "-" + this.y), "w")) {
+				 map = move(map, playerX, playerY);
+			 }else {
+				// Player.dmg(attack);
 			 }
-		 }else if(playerX - this.x < 3 && playerX - this.x > 0) {
-			 
-		 }else if (playerY - this.y > -3 && playerY - this.y < 0) {
-			 
-		 }else if(playerY - this.y < 3 && playerY - this.y > 0) {
-			 
+		 }else if(this.x - playerX < 3 && this.x - playerX > 0) {
+			 if (!map.checkNewPos((""+ this.x  + "-" + this.y), "e")) {
+				 map = move(map, playerX, playerY);
+			 }else {
+				// Player.dmg(attack);
+			 }
+		 }else if (this.y - playerY > -3 && this.y - playerY < 0) {
+			 if (!map.checkNewPos((""+ this.x  + "-" + this.y), "n")) {
+				 map = move(map, playerX, playerY);
+			 }else {
+				// Player.dmg(attack);
+			 }
+		 }else if(this.y - playerY < 3 && this.y - playerY > 0) {
+			 if (!map.checkNewPos((""+ this.x  + "-" + this.y), "s")) {
+				 map = move(map, playerX, playerY);
+			 }else {
+				// Player.dmg(attack);
+			 }
 		 }else {
 			map = move(map, playerX, playerY);
 		 }
-		 
+		return map; 
+	}
+	//sets the damaged boolean to true if is not already
+	//then subtracts the int passed to it and returns value of hp
+	public int dmg (int x) {
+		if(!damaged) {
+			damaged = !damaged;
+		}
+		hp -= x;
+		return hp; 
 	}
 	
 	//returns a string representing current position
