@@ -37,6 +37,14 @@ public Dungeon(){
 public void nextDungeon(){ 
    int row = 0;
    
+   
+   while(row < 20) { //overwrites existing map with blank space if given map is less than 20x20 {
+      for(int i = 0; i < 20; i++) {
+         map[row][i] = 0;
+      } row++;
+   }   
+      
+   row = 0;
    try {
       File dng = new File("Dungeon" + level + ".txt"); //reads our level of dungeon
       Scanner builder = new Scanner(dng);
@@ -50,14 +58,8 @@ public void nextDungeon(){
             }
          }
          row++;
-      
-      
-      } while(row < 20) { //overwrites existing map with blank space if given map is less than 20x20 {
-         for(int i = 0; i < 20; i++) {
-            map[row][i] = 0;
-         }
-      }   
-      
+      }
+         
    } catch (FileNotFoundException e) {
          System.out.println("That Dungeon file does not exist");
    }
@@ -126,6 +128,27 @@ public char checkInteract(String origin, char facing) {
 }
 
 
+//this will return the coordinates of the position you want to interact with
+public String getInteractPos(String origin, char facing) {  
+   String[] coords = origin.split("-", 2);
+   int x = Integer.parseInt(coords[0]); int y = Integer.parseInt(coords[1]); //converts the x-y hash to x and y integers
+   
+   if(facing == 'N') {
+      y--;
+   }else if(facing == 'S') { 
+      y++;
+   }else if(facing == 'W') { 
+      x--;
+   }else if(facing == 'E') { 
+      x++;
+   }
+   String ans = new String();
+   ans = x + "-" + y;
+
+   return ans; //returns the character at that position
+    
+}
+
 
 
 
@@ -162,7 +185,7 @@ public void place(char symbol, String position) {
 
 
 //this method will remove/despawn a symbol from the map
-public void remove(char symbol, String position) {
+public void remove(String position) {
    String[] coords = position.split("-", 2);
    int x = Integer.parseInt(coords[0]); int y = Integer.parseInt(coords[1]); //converts the x-y hash to x and y integers
    map[y][x] = 0; //removes symbol from the space it occupies

@@ -1,10 +1,10 @@
-import java.util.Random;
+import java.util.*;
 import java.util.Scanner;
 
 //this inventory class will be the players main storage, as well as contain lists of possible items, and manage random item spawns
 public class Inventory {
-   private Item [] playerArmors = new Item[50];
-   private Item [] playerWeapons = new Item[50];
+   LinkedList<Item> playerArmors = new LinkedList<Item>();
+   LinkedList<Item> playerWeapons = new LinkedList<Item>();
    private Item [] armorSet = new Item[13];
    private Item [] weaponSet = new Item[13];
    
@@ -68,7 +68,7 @@ public class Inventory {
       
       Random rando = new Random(); //assigns an item based on dungeon level and random chance
       int rand = rando.nextInt(3);
-      newItem = weaponSet[level + rand];
+      newItem.setItem(weaponSet[level + rand].getVal(), weaponSet[level + rand].getName());
       
       rand = rando.nextInt(5); //assigns a weapon grade randomly
       if(rand == 0) {
@@ -84,7 +84,7 @@ public class Inventory {
             newItem.setModifier(-1, "wonky");
          }
       } else if(rand == 2) {
-         //no modifier
+         newItem.setModifier(0, " ");
       } else if(rand == 3) {
          if(newItem.isMetalWeap()) {
             newItem.setModifier(1, "sharp");
@@ -98,17 +98,8 @@ public class Inventory {
             newItem.setModifier(2, "excellent");
          }
       }
-      int i = 0; //this block places the item in the closest open inventory slot
-      boolean fin = false;
-      while(i < 50 && fin == false) {
-         if(playerWeapons[i] != null) {
-            playerWeapons[i] = newItem;
-            fin = true;
-         } else { i++; }
-      }if(i == 50) {
-         System.out.println("Sorry, inventory for that item is full!");
-      }
-
+      playerWeapons.add(newItem);
+      System.out.println("You got a " + newItem.getName());
 }
 
    //this method will add the item type and determine the modifier of the item gotten
@@ -118,7 +109,7 @@ public class Inventory {
       
       Random rando = new Random(); //assigns an item based on dungeon level and random chance
       int rand = rando.nextInt(3);
-      newItem = armorSet[level + rand];
+      newItem.setItem(armorSet[level + rand].getVal(), armorSet[level + rand].getName());
       
       rand = rando.nextInt(5); //assigns a weapon grade randomly
       if(rand == 0) {
@@ -148,16 +139,8 @@ public class Inventory {
             newItem.setModifier(2, "exquisite");
          }
       }
-      int i = 0; //this block places the item in the closest open inventory slot
-      boolean fin = false;
-      while(i < 50 && fin == false) {
-         if(playerWeapons[i] != null) {
-            playerWeapons[i] = newItem;
-            fin = true;
-         } else { i++; }
-      } if(i == 50) {
-         System.out.println("Sorry, inventory for that item is full!");
-      }
+      playerArmors.add(newItem);
+      System.out.println("You got a " + newItem.getName());
 
 }
 
@@ -167,12 +150,14 @@ public class Inventory {
       int value = 0;
       System.out.println("hit a for armor, w for weapons, or anything else to leave this menu");
       Scanner IS = new Scanner(System.in);
-      if(IS.nextLine().charAt(0) == 'a' || IS.nextLine().charAt(0) == 'A'){
+      char choice = IS.nextLine().charAt(0);
+      
+      if(choice == 'a' || choice == 'A'){
          value = armorSelect();
-         PC.equip('x', value);
-      }else if(IS.nextLine().charAt(0) == 'w' || IS.nextLine().charAt(0) == 'W'){
+         PC.equipArmor(value);
+      }else if(choice == 'w' || choice == 'W'){
          value = weaponSelect();
-         PC.equip('w', value);
+         PC.equipWeap(value);
       }
       return PC;
    }
@@ -182,7 +167,7 @@ public class Inventory {
       int armorLevel = 0;
       inventoryHeap heap = new inventoryHeap();
       heap.inventoryHeap(playerArmors);
-      Item [] list = new Item[heap.heapSize()+1]; //our displayed list of items
+      Item [] list = new Item[heap.heapSize()]; //our displayed list of items
       
       for(int i = 0; i < list.length ; i++) {
          list[i] = heap.deleteMin();
@@ -193,11 +178,11 @@ public class Inventory {
          System.out.println("|index   Strength   Name                    ");
       for(int i = 0; i < list.length; i++) {
          System.out.println("|" + i + "      " + list[i].getVal() + "     " + list[i].getName());
-      }  System.out.println("-------------------------------------------");
+      }  System.out.println("|-------------------------------------------");
       Scanner IS = new Scanner(System.in);
       try {
          int choice = IS.nextInt(); //this will assign the player choice to our return value
-         while(choice > 0 && choice < list.length) {
+         if(choice >= 0 && choice < list.length) {
             armorLevel = list[choice].getVal();
          }
       }catch(Exception invalidInput) {
@@ -212,22 +197,22 @@ public class Inventory {
       int weaponLevel = 0;
       inventoryHeap heap = new inventoryHeap();
       heap.inventoryHeap(playerWeapons);
-      Item [] list = new Item[heap.heapSize()+1]; //our displayed list of items
+      Item [] list = new Item[heap.heapSize()]; //our displayed list of items
       
       for(int i = 0; i < list.length ; i++) {
          list[i] = heap.deleteMin();
       }
          System.out.println("|-------------------------------------------");
-         System.out.println("| To select a weapon, enter its index number");
+         System.out.println("|  To select weapon, enter its index number  ");
          System.out.println("|-------------------------------------------");
          System.out.println("|index   Strength   Name                    ");
       for(int i = 0; i < list.length; i++) {
          System.out.println("|" + i + "      " + list[i].getVal() + "     " + list[i].getName());
-      }  System.out.println("-------------------------------------------");
+      }  System.out.println("|-------------------------------------------");
       Scanner IS = new Scanner(System.in);
       try {
          int choice = IS.nextInt(); //this will assign the player choice to our return value
-         while(choice > 0 && choice < list.length) {
+         if(choice >= 0 && choice < list.length) {
             weaponLevel = list[choice].getVal();
          }
       }catch(Exception invalidInput) {

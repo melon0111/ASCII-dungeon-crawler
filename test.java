@@ -1,17 +1,15 @@
 public class test {
 
 public static void main(String[] args) {
-   String pos = "15-1";
-   char input = 'w';
-   char symbol = '$';
-   Dungeon Dungeon1 = new Dungeon(1);
-   Dungeon1.printMap();
-   boolean available = Dungeon1.checkNewPos(pos, input);
-   if(available) {
-      pos = Dungeon1.changePos(pos, input, symbol);
+   Dungeon map = new Dungeon();
+   Inventory inv = new Inventory();
+   inv.setArmors();
+   inv.setWeapons();
+   for(int i = 0; i < 10; i++) {
+      inv.randomItem(map);
    }
-   Dungeon1.printMap();
-
+   Player PC = new Player();
+   inv.openInventory(PC);
 }
 
 }

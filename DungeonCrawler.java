@@ -60,6 +60,7 @@ public static Player intro() {
       
       Map.place(PC.symbol(), "10-10"); //player will spawn here initially on our first map
       Map.printMap();
+      PC.ui();
    return PC;
 }
 
@@ -67,11 +68,10 @@ public static Player intro() {
 
 //This is the primary method for player actions, taking movement, direction or inventory actions
 public static void playerAction(char input){
-   try {
-		if(input >= 65 && input <= 90) {
+   if(input >= 65 && input <= 90) {
 			input += 32; //removes capitalization from equation
 		}
-
+   try {
       if(input == 'w' || input == 'a' || input == 's' || input == 'd') { //movement
          Map = PC.move(Map, input);
          turn = false; //ends player turn
@@ -79,10 +79,15 @@ public static void playerAction(char input){
          PC.face(input);
          Map.printMap();
          PC.ui();
-      }else if(input == 'e' || input == 'E') { //interaction
-         Map = PC.interact(Map);
-      }else if(input == 'i' || input == 'I') { //interaction
+      }else if(input == 'e') { //interaction
+         interact();
+         Map.printMap();
+      }else if(input == 'i') { //interaction
          PC = Inv.openInventory(PC);
+         Map.printMap();
+         PC.ui();
+      } else {
+         System.out.println("Unrecognized command (WASD to move, UHJK for direction, I for inventory, Q to quit)");
       }
    } catch(Exception invalidInput) {
          System.out.println("Unrecognized command (WASD to move, UHJK for direction, I for inventory, Q to quit)");
@@ -92,7 +97,27 @@ public static void playerAction(char input){
 }
 
 
-
+   //interact lets the player interact with ladders and chests
+   public static void interact() {
+      char result = Map.checkInteract(PC.getPos(), PC.facing());
+      if(result == 'v') { //traverses down
+         Map.level++;
+         Map.nextDungeon();
+         Map.place(PC.symbol(), PC.getPos());
+         Map.printMap();
+      }else if(result == '^') { //traverses up
+         Map.level--;
+         Map.nextDungeon();
+         Map.place(PC.symbol(), PC.getPos());
+         Map.printMap();
+      }else if(result == '$') { //get that loot! gives random loot from a chest
+         Inv.randomItem(Map);
+         String intPos = new String(Map.getInteractPos(PC.getPos(), PC.facing()));
+         Map.remove(intPos);
+      } else {
+         System.out.println("You can't interract with this object!");
+      }
+   }
 
 
 

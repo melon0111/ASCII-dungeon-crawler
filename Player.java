@@ -32,12 +32,13 @@ public class Player {
 	}
 		
 	//changes value based on value of weapon
-	public void equip(char type, int x) {
-		if(type == 'w') {
+	public void equipWeap(int x) {
 			attack = x;
-		} else {
+	}
+   
+   //changes value based on value of armor
+	public void equipArmor(int x) {
 			def = x;
-		}
 	}
 	
 	//takes in a symbol from action and checks if the movement is possible
@@ -76,27 +77,36 @@ public class Player {
       System.out.println("hp: " + hp + "  def: " + def + "  attack: " + attack + "    facing: " + facing);
    }
    
-   
-   
-   //interact lets the player interact with ladders and chests
-   public Dungeon interact(Dungeon map) {
-      char result = map.checkInteract(cord, facing);
-      if(result == 'v') { //traverses down
-         map.level++;
-         map.nextDungeon();
-         map.place(rep, cord);
-         map.printMap();
-      }else if(result == '^') { //traverses up
-         map.level--;
-         map.nextDungeon();
-         map.place(rep, cord);
-         map.printMap();
-      } else {
-         System.out.println("You can't interract with this object!");
-      }
-      return map;
+   public String getPos() {
+      return cord;
    }
    
+   public char facing() {
+      return facing;
+   }
+   
+   
+   
+//    //interact lets the player interact with ladders and chests
+//    public Dungeon interact(Dungeon map) {
+//       char result = map.checkInteract(cord, facing);
+//       if(result == 'v') { //traverses down
+//          map.level++;
+//          map.nextDungeon();
+//          map.place(rep, cord);
+//          map.printMap();
+//       }else if(result == '^') { //traverses up
+//          map.level--;
+//          map.nextDungeon();
+//          map.place(rep, cord);
+//          map.printMap();
+//       }else if(result == '$') {
+//       } else {
+//          System.out.println("You can't interract with this object!");
+//       }
+//       return map;
+//    }
+//    
    
 	/*
 	//checks any adverse status effects and preforms any relevant action.
