@@ -7,6 +7,7 @@ public class DungeonCrawler {
    public static Player PC = new Player();            //player object
    public static Dungeon Map = new Dungeon();
    public static boolean turn;
+   public static Inventory Inv = new Inventory();
    
 public static void main(String[] args) {
    char input = ' ';
@@ -39,6 +40,8 @@ public static void main(String[] args) {
 
 //this class will give an introduction and assign a player-given symbol
 public static Player intro() {
+   Inv.setWeapons();
+   Inv.setArmors();
    System.out.println("Welcome to The Dungeon! To begin, give your character a symbol for the map:");
    try {
       while(PC.symbol() == 0 || PC.symbol() == 32) {
@@ -76,8 +79,10 @@ public static void playerAction(char input){
          PC.face(input);
          Map.printMap();
          PC.ui();
-      }else if(input == 'e') { //interaction
+      }else if(input == 'e' || input == 'E') { //interaction
          Map = PC.interact(Map);
+      }else if(input == 'i' || input == 'I') { //interaction
+         PC = Inv.openInventory(PC);
       }
    } catch(Exception invalidInput) {
          System.out.println("Unrecognized command (WASD to move, UHJK for direction, I for inventory, Q to quit)");

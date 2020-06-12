@@ -168,6 +168,11 @@ public void remove(char symbol, String position) {
    map[y][x] = 0; //removes symbol from the space it occupies
 }
 
+//returns current dungeon level, for item levelling! cool!
+public int getLevel() {
+   return level;
+}
+
 
 /* This method will involve retrieving applicable hash/keys. So it will return the object at the grid position, or the character if there is no associated object
 public void getPos(int x, y) {

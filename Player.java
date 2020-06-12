@@ -81,12 +81,12 @@ public class Player {
    //interact lets the player interact with ladders and chests
    public Dungeon interact(Dungeon map) {
       char result = map.checkInteract(cord, facing);
-      if(result == 'v') {
+      if(result == 'v') { //traverses down
          map.level++;
          map.nextDungeon();
          map.place(rep, cord);
          map.printMap();
-      }else if(result == '^') {
+      }else if(result == '^') { //traverses up
          map.level--;
          map.nextDungeon();
          map.place(rep, cord);
