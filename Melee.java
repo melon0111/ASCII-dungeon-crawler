@@ -3,7 +3,7 @@ import java.util.Random;
 public class Melee {
 	private int x;
 	private int y;
-	private char symbol = M;
+	private char symbol = 'M';
 	private boolean agro;
 	private int attack;
 	private int hp = 20;
