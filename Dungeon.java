@@ -7,6 +7,7 @@ public class Dungeon {
 public int level = 0;
 char[][] map = new char[20][20]; //our map grid of characters, my initial idea here is that any spaces will be null, but printed as spaces
 hashTable enemies = new hashTable();
+List<String> enms = new ArrayList<String>(); //our current enemy positions
 
 
 //constructor for our Dungeon, the idea here is to take the file and map out the characters to our map array
@@ -214,8 +215,9 @@ public void placeMob(char mob, int x, int y) {
    map[y][x] = mob;
    String pos = x + "-" + y;
    Enemy M = new Ranged();
+   M.assignPos(x, y);
    enemies.add(pos, M);
-   
+   enms.add(pos);
 }
 
 
@@ -226,6 +228,22 @@ public void removeMob(String position) {
    map[y][x] = 0; //removes symbol from the space it occupies
    
    enemies.remove(position);
+   
+   for(int i = 0; i < 10; i++) {
+      if(position == enms.get(i)) {
+         enms.remove(i);
+      }
+   }
+}
+
+//this runs the enemy tyrns
+public void enemyTurns(Player PC) {
+   for(int i = 0; i < enms.size(); i++) {
+      String pos = enms.get(i);
+      Enemy M = new Enemy();
+      M = enemies.get(pos);
+      M.action(PC);
+   }
 }
 
 

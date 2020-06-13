@@ -27,7 +27,7 @@ public static void main(String[] args) {
       playerAction(input);
       }
       
-      
+      enemyTurn();
       
       Map.printMap();
       PC.ui();
@@ -122,8 +122,10 @@ public static void playerAction(char input){
       }
    }
 
-
-
+   //some sort of logic running out of bounds in our get function in the hash table
+   public static void enemyTurn() {
+      //Map.enemyTurns(PC);
+   }
 
 
 

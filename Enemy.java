@@ -8,4 +8,14 @@ public class Enemy {
 	public String position() {
 		return "" + x + "-" + y;
 	}
+   
+   public void action(Player PC) {
+   
+   }
+   
+   //assigns an initial position
+   public void assignPos(int newx, int newy) {
+      x = newx;
+      y = newy;
+   }
 }
