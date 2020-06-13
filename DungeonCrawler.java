@@ -5,15 +5,14 @@ import java.io.*;
 public class DungeonCrawler {
    public static Scanner IS = new Scanner(System.in); //input scanner
    public static Player PC = new Player();            //player object
-   public static Dungeon Map = new Dungeon();
-   public static boolean turn;
-   public static Inventory Inv = new Inventory();
+   public static Dungeon Map = new Dungeon();         //dungeon object contains the map and enemy objects
+   public static boolean turn;                        //turn tracker
+   public static Inventory Inv = new Inventory();     //inventory contains items and inventory UI
    
 public static void main(String[] args) {
    char input = ' ';
    
-   
-   PC = intro();
+   PC = intro();     //initializes player
    PC.ui();
    while(input != 'q' || input != 'Q') {
    turn = true;
@@ -23,7 +22,7 @@ public static void main(String[] args) {
       try {
          input = IS.nextLine().charAt(0);
       } catch(Exception invalidInput) {
-         System.out.println("please enter a command");
+         System.out.println("please enter a command (movement: WASD     direction: UHJK     inventory: I     attack: F     interact: E");
       }
       playerAction(input);
       }
@@ -40,6 +39,7 @@ public static void main(String[] args) {
 
 //this class will give an introduction and assign a player-given symbol
 public static Player intro() {
+   Map.nextDungeon();
    Inv.setWeapons();
    Inv.setArmors();
    System.out.println("Welcome to The Dungeon! To begin, give your character a symbol for the map:");
@@ -55,10 +55,10 @@ public static Player intro() {
       System.out.println("Sorry! That's an invalid character!");
    }
       System.out.println("In this game use wasd to move, i to open and close the inventory.");
-      System.out.println("use the uhjk keys to face the direction you want to attack");
+      System.out.println("use the uhjk keys to face the direction you want to attack, and use f to attack");
       System.out.println("Godspeed!");
       
-      Map.place(PC.symbol(), "10-10"); //player will spawn here initially on our first map
+      Map.place(PC.symbol(), "5-18"); //player will spawn here initially on our first map
       Map.printMap();
       PC.ui();
    return PC;
@@ -79,6 +79,9 @@ public static void playerAction(char input){
          PC.face(input);
          Map.printMap();
          PC.ui();
+      }else if(input == 'f') { //attack
+         Map.attack(PC);
+         turn = false;
       }else if(input == 'e') { //interaction
          interact();
          Map.printMap();
@@ -118,9 +121,6 @@ public static void playerAction(char input){
          System.out.println("You can't interract with this object!");
       }
    }
-
-
-
 
 
 

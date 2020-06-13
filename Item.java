@@ -13,7 +13,9 @@ public class Item {
    public void setModifier(int val, String mod) {
       modifier = mod;
       value += val;
-      name = mod + " " + name;
+      if(mod != " ") {
+         name = mod + " " + name;
+      }
    }
    
    //if the weapon type is metal, it will have different modifier names

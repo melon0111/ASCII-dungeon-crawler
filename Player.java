@@ -2,7 +2,7 @@ import java.util.Random;
 
 public class Player {
    private char facing = 'N';
-	private String cord = "10-10";
+	private String cord = "5-18";
 	private int hp = 100;
 	private int def = 0;
 	private int attack = 2;
@@ -30,6 +30,10 @@ public class Player {
 			//set flag in main to game over
 		}
 	}
+   
+   public int dmg() {
+      return attack;
+   }
 		
 	//changes value based on value of weapon
 	public void equipWeap(int x) {
@@ -85,28 +89,7 @@ public class Player {
       return facing;
    }
    
-   
-   
-//    //interact lets the player interact with ladders and chests
-//    public Dungeon interact(Dungeon map) {
-//       char result = map.checkInteract(cord, facing);
-//       if(result == 'v') { //traverses down
-//          map.level++;
-//          map.nextDungeon();
-//          map.place(rep, cord);
-//          map.printMap();
-//       }else if(result == '^') { //traverses up
-//          map.level--;
-//          map.nextDungeon();
-//          map.place(rep, cord);
-//          map.printMap();
-//       }else if(result == '$') {
-//       } else {
-//          System.out.println("You can't interract with this object!");
-//       }
-//       return map;
-//    }
-//    
+  
    
 	/*
 	//checks any adverse status effects and preforms any relevant action.

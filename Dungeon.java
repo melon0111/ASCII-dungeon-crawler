@@ -10,25 +10,6 @@ char[][] map = new char[20][20]; //our map grid of characters, my initial idea h
 
 //constructor for our Dungeon, the idea here is to take the file and map out the characters to our map array
 public Dungeon(){ 
-   int row = 0;
-   
-   try {
-      File dng = new File("Dungeon" + level + ".txt"); //reads our level of dungeon
-      Scanner builder = new Scanner(dng);
-      while(builder.hasNextLine()) { //here we'll create a string, then populate the corresponding row of our 2D array with it
-         String rowString = builder.nextLine();
-         for(int i = 0; i < rowString.length(); i++){ //loops for x coordinates
-            if(rowString.charAt(i) == 32) { //if the position is a space, changes to a null ascii character, may or may not be necessary, keeps things simple though
-               map[row][i] = 0;
-            } else {
-               map[row][i] = rowString.charAt(i);
-            }
-         }
-         row++;
-      }
-   } catch (FileNotFoundException e) {
-         System.out.println("That Dungeon file does not exist");
-   }
 }
 
 
@@ -38,7 +19,7 @@ public void nextDungeon(){
    int row = 0;
    
    
-   while(row < 20) { //overwrites existing map with blank space if given map is less than 20x20 {
+   while(row < 20) { //overwrites existing map with blank space
       for(int i = 0; i < 20; i++) {
          map[row][i] = 0;
       } row++;
@@ -51,8 +32,10 @@ public void nextDungeon(){
       while(builder.hasNextLine()) { //here we'll create a string, then populate the corresponding row of our 2D array with it
          String rowString = builder.nextLine();
          for(int i = 0; i < rowString.length(); i++){ //loops for x coordinates
-            if(rowString.charAt(i) == 32) { //if the position is a space, changes to a null ascii character, may or may not be necessary, keeps things simple though
+            if(rowString.charAt(i) == 32) { //if the position is a space, changes to a null ascii character
                map[row][i] = 0;
+            } else if(rowString.charAt(i) == 'R' || rowString.charAt(i) == 'M') {
+                placeMob(rowString.charAt(i), i, row);
             } else {
                map[row][i] = rowString.charAt(i);
             }
@@ -197,10 +180,44 @@ public int getLevel() {
 }
 
 
-/* This method will involve retrieving applicable hash/keys. So it will return the object at the grid position, or the character if there is no associated object
-public void getPos(int x, y) {
-   return 
+//this is the attack method, it can take player inputs
+public void attack(Player PC) {
+   int dmg = PC.dmg(); //get players attack stat
+   String[] coords = PC.getPos().split("-", 2);
+   int x = Integer.parseInt(coords[0]); int y = Integer.parseInt(coords[1]); //converts the x-y hash to x and y integers
+   
+   if(PC.facing() == 'N') { //attack space above
+      y--;
+   }else if(PC.facing() == 'S') { //attack space below
+      y++;
+   }else if(PC.facing() == 'W') { //attack space left
+      x--;
+   }else if(PC.facing() == 'E') { //attack space right
+      x++;
+   }
+   
+   String target = x + "-" + y; //the String of coordinates of our new target
 }
-*/
+
+
+//this method will place specific enemy types
+public void placeMob(char mob, int x, int y) {
+   map[y][x] = mob;
+
+//add mob to hastable
+   
+}
+
+
+//this method will remove a specified mob
+public void removeMob(char mob, String position) {
+   String[] coords = position.split("-", 2);
+   int x = Integer.parseInt(coords[0]); int y = Integer.parseInt(coords[1]); //converts the x-y hash to x and y integers
+   map[y][x] = 0; //removes symbol from the space it occupies
+   
+//remove mob from hashtable
+}
+
+
 
 }

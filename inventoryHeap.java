@@ -44,7 +44,7 @@ public class inventoryHeap {
       while(2*hole <= size) {
          int left = 2*hole;
          int right = left+1;
-         
+            //this block is needed because linkedlists suck and break if you try to look one too far
          boolean toobig = false;
          if(right > size){
             toobig = true;
@@ -64,7 +64,7 @@ public class inventoryHeap {
          heap.set(hole, heap.get(hole));
       }return hole;
    }
-   
+   //probably doesn't work, not even used
    public int percolateUp(int hole, Item val) {
       while(hole > 1 && val.getVal() < heap.get(hole/2).getVal()) {
          heap.set(hole, heap.get(hole/2));
@@ -77,14 +77,5 @@ public class inventoryHeap {
       return size;
    }
    
-   
-   
-   
-   public Item[] getHeap() {
-      Item [] ret = new Item[size];
-      for(int i = 0; i < size; i++) {
-         ret[i] = heap.get(i);
-      }return ret;
-   }
-   
+
 }
