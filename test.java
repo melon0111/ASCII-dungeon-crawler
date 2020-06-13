@@ -13,3 +13,11 @@ public static void main(String[] args) {
 }
 
 }
+
+
+
+
+
+hashtableNode
+public hash(String coords, enemy enm)
+   
