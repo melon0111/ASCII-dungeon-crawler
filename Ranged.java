@@ -1,6 +1,6 @@
 import java.util.Random;
 
-public class Ranged {
+public class Ranged extends Enemy {
 	private int x;
 	private int y;
 	private char symbol = 'R';
