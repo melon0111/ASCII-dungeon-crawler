@@ -3,7 +3,7 @@ import java.util.Random;
 public class Ranged {
 	private int x;
 	private int y;
-	private char symbol;
+	private char symbol = R;
 	private boolean agro;
 	private int attack;
 	private int hp = 20;

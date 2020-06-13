@@ -3,7 +3,7 @@ import java.util.Random;
 public class Melee {
 	private int x;
 	private int y;
-	private char symbol;
+	private char symbol = M;
 	private boolean agro;
 	private int attack;
 	private int hp = 20;
@@ -12,7 +12,7 @@ public class Melee {
 	//decides ai's action 
 	public Dungeon action(Dungeon map, String player) {
 		if(!damaged) {
-			hp = 20 +2 * map.level;
+			hp = 20 + 2 * map.level;
 		}
 		attack = (-3 - map.level);
 		 String[] coords = player.split("-", 2);
