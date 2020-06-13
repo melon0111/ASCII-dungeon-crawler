@@ -24,26 +24,26 @@ public class Melee extends Enemy{
 		 //attacks player if close enough and there is nothing in the way
 		 //if there is it will move
 		 if(this.x - playerX > -2 && this.x - playerX < 0) { // checks if player is in positive x direction and within 2
-			 if (!map.checkNewPos((""+ this.x  + "-" + this.y), "w") && this.x - 1 != playerX && this.y == playerY) {
+			 if (!map.checkNewPos((""+ this.x  + "-" + this.y), 'w') && this.x - 1 != playerX && this.y == playerY) {
 				 map = move(map, playerX, playerY);//there is an obstruction so ai moves, or player is too close.
 				 
 			 }else {
 				// Player.dmg(attack);
 			 }
 		 }else if(this.x - playerX < 2 && this.x - playerX > 0 ) { //checks if player is in negative x direction and within 2 
-			 if (!map.checkNewPos((""+ this.x  + "-" + this.y), "e") && this.x + 1 != playerX && this.y == playerY ) {
+			 if (!map.checkNewPos((""+ this.x  + "-" + this.y), 'e') && this.x + 1 != playerX && this.y == playerY ) {
 				 map = move(map, playerX, playerY);//there is an obstruction so ai moves, or player is too close.
 			 }else {
 				// Player.dmg(attack);
 			 }
 		 }else if (this.y - playerY > -2 && this.y - playerY < 0) { //checks if player is in negative y direction but compensates for inverted map
-			 if (!map.checkNewPos((""+ this.x  + "-" + this.y), "n") && this.x != playerX && this.y -1 != playerY) {
+			 if (!map.checkNewPos((""+ this.x  + "-" + this.y), 'n') && this.x != playerX && this.y -1 != playerY) {
 				 map = move(map, playerX, playerY);//there is an obstruction so ai moves, or player is too close.
 			 }else {
 				// Player.dmg(attack);
 			 }
 		 }else if(this.y - playerY < 2 && this.y - playerY > 0) {//checks if player is in positive y direction but compensates for inverted map 
-			 if (!map.checkNewPos((""+ this.x  + "-" + this.y), "s") && this.x == playerX && this.y + 1 != playerY) {
+			 if (!map.checkNewPos((""+ this.x  + "-" + this.y), 's') && this.x == playerX && this.y + 1 != playerY) {
 				 map = move(map, playerX, playerY); //there is an obstruction so ai moves, or player is too close.
 			 }else {
 				// Player.dmg(attack);
@@ -89,7 +89,7 @@ public class Melee extends Enemy{
 	//chooses the ai's movement, following player if agro true
 	// or calls rMove for random direction
 	private Dungeon move(Dungeon map, int playerX, int playerY) {
-		char move;
+		char move = 0;
 		if(!agro) {
 				move = rMove(); 
 			while(!map.checkNewPos((""+ this.x  + "-" + this.y), move)){
