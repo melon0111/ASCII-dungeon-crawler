@@ -14,18 +14,18 @@ public class Inventory {
          armorSet[i] = new Item();
       }
       armorSet[0].setItem(3, "rags");
-      armorSet[1].setItem(5, "bucket helmet");
-      armorSet[2].setItem(8, "thick shirt");
-      armorSet[3].setItem(10, "gambeson");
-      armorSet[4].setItem(12, "chain mail");
-      armorSet[5].setItem(15, "hauberk");
-      armorSet[6].setItem(17, "lamelar");
-      armorSet[7].setItem(20, "cuirass");
-      armorSet[8].setItem(23, "plate armor");
-      armorSet[9].setItem(25, "gothic armor");
-      armorSet[10].setItem(28, "adamantium armor");
-      armorSet[11].setItem(30, "mithril armor");
-      armorSet[12].setItem(35, "armor of the gods");
+      armorSet[1].setItem(4, "bucket helmet");
+      armorSet[2].setItem(5, "thick shirt");
+      armorSet[3].setItem(6, "gambeson");
+      armorSet[4].setItem(7, "chain mail");
+      armorSet[5].setItem(8, "hauberk");
+      armorSet[6].setItem(9, "lamelar");
+      armorSet[7].setItem(10, "cuirass");
+      armorSet[8].setItem(11, "plate armor");
+      armorSet[9].setItem(12, "gothic armor");
+      armorSet[10].setItem(13, "adamantium armor");
+      armorSet[11].setItem(14, "mithril armor");
+      armorSet[12].setItem(20, "armor of the gods");
    }
    
    //this method sets out list of weapons that can be gotten

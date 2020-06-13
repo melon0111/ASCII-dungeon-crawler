@@ -21,6 +21,7 @@ public void nextDungeon(){
    
    while(row < 20) { //overwrites existing map with blank space
       for(int i = 0; i < 20; i++) {
+         checkIfMob(i, row);
          map[row][i] = 0;
       } row++;
    }   
@@ -199,6 +200,13 @@ public void attack(Player PC) {
    String target = x + "-" + y; //the String of coordinates of our new target
 }
 
+//checks for the mob that inhabits the given space
+public void checkIfMob(int x, int y) {
+   if(map[y][x] == 'R' || map[y][x] == 'M') {
+      String remove = x + "-" + y;
+      removeMob(remove);
+   }
+}
 
 //this method will place specific enemy types
 public void placeMob(char mob, int x, int y) {
@@ -210,7 +218,7 @@ public void placeMob(char mob, int x, int y) {
 
 
 //this method will remove a specified mob
-public void removeMob(char mob, String position) {
+public void removeMob(String position) {
    String[] coords = position.split("-", 2);
    int x = Integer.parseInt(coords[0]); int y = Integer.parseInt(coords[1]); //converts the x-y hash to x and y integers
    map[y][x] = 0; //removes symbol from the space it occupies
